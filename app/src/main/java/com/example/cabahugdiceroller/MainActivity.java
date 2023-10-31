@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Random random = new Random();
     ImageView dice1,dice2;
+    private Bitmap[] diceImages; // Array to store preloaded dice images
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,55 +29,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dice2 = findViewById(R.id.dice_image2);
         Button roll = findViewById(R.id.roll);
         roll.setOnClickListener(this);
+        preloadDiceImages();
     }
 
-    public Bitmap setImage(){
-        int i = random.nextInt(6)+1;
-        String drawable_name = String.format("dice_%d",i);
-        int imagedrawable = getResources().getIdentifier(drawable_name,"drawable",getPackageName());
+    private void preloadDiceImages() {
+        diceImages = new Bitmap[6];
+        for (int i = 1; i <= 6; i++) {
+            String drawableName = String.format("dice_%d", i);
+            int imageDrawable = getResources().getIdentifier(drawableName, "drawable", getPackageName());
+            diceImages[i - 1] = BitmapFactory.decodeResource(getResources(), imageDrawable);
+        }
+    }
 
-        Bitmap image = BitmapFactory.decodeResource(getResources(), imagedrawable);
-
-        Bitmap mutableImage = image.copy(Bitmap.Config.ARGB_8888, true);
+    private Bitmap setImage() {
+        int i = random.nextInt(6);
+        Bitmap image = diceImages[i].copy(Bitmap.Config.ARGB_8888, true);
 
         int targetColor = Color.parseColor("#FFFFFF"); // Color you want to change
+        int replacementColor = Color.rgb(random.nextInt(256), random.nextInt(256), random.nextInt(256));
 
-        int red = random.nextInt(256); // 0-255
-        int green = random.nextInt(256); // 0-255
-        int blue = random.nextInt(256); // 0-255
-
-
-        int replacementColor = Color.argb(255, red, green, blue); // Color to replace with
-
-        for (int x = 0; x < mutableImage.getWidth(); x++) {
-            for (int y = 0; y < mutableImage.getHeight(); y++) {
-                int pixelColor = mutableImage.getPixel(x, y);
+        for (int x = 0; x < image.getWidth(); x++) {
+            for (int y = 0; y < image.getHeight(); y++) {
+                int pixelColor = image.getPixel(x, y);
 
                 if (pixelColor == targetColor) {
-                    mutableImage.setPixel(x, y, replacementColor);
+                    image.setPixel(x, y, replacementColor);
                 }
             }
         }
 
-        return mutableImage;
+        return image;
     }
 
     @Override
     public void onClick(View view) {
-        Animation animation = AnimationUtils.loadAnimation(this,R.anim.rotate);
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate);
         dice1.startAnimation(animation);
         dice1.setImageBitmap(setImage());
         dice2.startAnimation(animation);
         dice2.setImageBitmap(setImage());
-
-
-
-
-
-
-
-
     }
+
 
 
 

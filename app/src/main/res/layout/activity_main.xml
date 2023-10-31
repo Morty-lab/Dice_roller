@@ -8,18 +8,36 @@
     tools:context=".MainActivity"
     android:gravity="center">
 
-    <ImageView
-        android:id="@+id/dice_image"
-        android:layout_width="100dp"
+    <RelativeLayout
+        android:layout_width="210dp"
         android:layout_height="100dp"
-        android:src="@drawable/dice1" />
+        android:id="@+id/dice_div"
+        android:layout_centerInParent="true">
+        <ImageView
+            android:id="@+id/dice_image1"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/dice_1" />
+
+        <ImageView
+            android:id="@+id/dice_image2"
+            android:layout_toRightOf="@id/dice_image1"
+            android:layout_marginLeft="10dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/dice_1" />
+
+    </RelativeLayout>
+
+
 
     <Button
         android:id="@+id/roll"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:text="Roll"
-        android:layout_below="@id/dice_image"
+        android:layout_below="@id/dice_div"
+        android:layout_centerHorizontal="true"
         />
 
 

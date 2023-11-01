@@ -16,6 +16,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    int nince;
     Random random = new Random();
     ImageView dice1,dice2;
     private Bitmap[] diceImages; // Array to store preloaded dice images
